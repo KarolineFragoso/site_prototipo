@@ -9,6 +9,10 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(bodyParser());
 
+app.get('/', (req, res) => {
+  res.json({ message: 'Backend do site-prototipo está rodando.' });
+});
+
 // Validation function for product data
 function validateProduct(data) {
   const errors = [];
