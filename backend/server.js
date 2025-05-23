@@ -123,15 +123,12 @@ app.listen(PORT, () => {
 
 // Endpoint para deletar produtos com dados inválidos
 app.delete('/products/cleanup-invalid', (req, res) => {
-  const sql = \`
-    DELETE FROM products
-    WHERE name = '' OR retail_price < 0 OR wholesale_price < 0 OR quantity < 0
-  \`;
+  const sql = "DELETE FROM products WHERE name = '' OR retail_price < 0 OR wholesale_price < 0 OR quantity < 0";
   db.run(sql, function(err) {
     if (err) {
       console.error(err.message);
       return res.status(500).json({ error: 'Falha ao deletar produtos inválidos' });
     }
-    res.json({ message: \`Deletados \${this.changes} produtos inválidos\` });
+    res.json({ message: `Deletados ${this.changes} produtos inválidos` });
   });
 });
