@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import ProductRegistrationScreen from './ProductRegistrationScreen';
 import EditProductsScreen from './EditProductsScreen';
 import SalesScreen from './SalesScreen';
@@ -8,28 +15,41 @@ import SalesReportScreen from './SalesReportScreen';
 // Login Screen component
 function LoginScreen({ onLogin }) {
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const PASSWORD = 'admin123';
 
   const handleLogin = () => {
     if (password === PASSWORD) {
+      setError('');
       onLogin();
       setPassword('');
     } else {
-      Alert.alert('Erro', 'Senha incorreta. Tente novamente.');
+      setError('Senha incorreta. Tente novamente.');
+      setPassword('');
     }
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Digite a senha"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
-      <Button title="Entrar" onPress={handleLogin} />
+    <View style={styles.loginContainer}>
+      <View style={styles.loginBox}>
+        <Text style={styles.title}>Login</Text>
+        {error ? (
+          <Text style={styles.errorText}>{error}</Text>
+        ) : (
+          <Text style={styles.errorText}>{' '}</Text>
+        )}
+        <TextInput
+          style={styles.input}
+          placeholder="Digite a senha"
+          placeholderTextColor="#888"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Entrar</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -39,16 +59,28 @@ function MainScreen({ onNavigate, onLogout }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Joãozinho Celular</Text>
-      <TouchableOpacity style={styles.navLink} onPress={() => onNavigate('ProductRegistration')}>
+      <TouchableOpacity
+        style={styles.navLink}
+        onPress={() => onNavigate('ProductRegistration')}
+      >
         <Text style={styles.navLinkText}>Cadastro de Produtos</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.navLink} onPress={() => onNavigate('Sales')}>
+      <TouchableOpacity
+        style={styles.navLink}
+        onPress={() => onNavigate('Sales')}
+      >
         <Text style={styles.navLinkText}>Fazer Vendas</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.navLink} onPress={() => onNavigate('EditProducts')}>
+      <TouchableOpacity
+        style={styles.navLink}
+        onPress={() => onNavigate('EditProducts')}
+      >
         <Text style={styles.navLinkText}>Editar Produtos</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.navLink} onPress={() => onNavigate('SalesReport')}>
+      <TouchableOpacity
+        style={styles.navLink}
+        onPress={() => onNavigate('SalesReport')}
+      >
         <Text style={styles.navLinkText}>Relatório de Vendas</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.logoutBtn} onPress={onLogout}>
@@ -97,27 +129,73 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  // Login styles
+  loginContainer: {
     flex: 1,
     backgroundColor: '#000000',
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 20,
+  },
+  loginBox: {
+    backgroundColor: '#121212',
+    padding: 24,
+    borderRadius: 12,
+    width: '100%',
+    maxWidth: 320,
+    alignItems: 'center',
+    shadowColor: '#6a0dad',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.6,
+    shadowRadius: 12,
   },
   title: {
     fontSize: 24,
     fontWeight: '700',
     color: '#6a0dad',
-    marginBottom: 20,
+    marginBottom: 24,
     textTransform: 'uppercase',
+    letterSpacing: 1,
     textAlign: 'center',
   },
   input: {
+    width: '100%',
     backgroundColor: '#1e1e1e',
     color: '#ffffff',
-    padding: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
     marginBottom: 20,
     borderRadius: 8,
     borderColor: '#6a0dad',
     borderWidth: 1,
+    fontSize: 16,
+  },
+  button: {
+    width: '100%',
+    backgroundColor: '#6a0dad',
+    paddingVertical: 14,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontWeight: '700',
+    fontSize: 18,
+  },
+  errorText: {
+    height: 20,
+    color: '#dc3545',
+    marginBottom: 8,
+    fontSize: 14,
+    textAlign: 'center',
+  },
+
+  // Main screen styles
+  container: {
+    flex: 1,
+    backgroundColor: '#000000',
+    padding: 20,
+    justifyContent: 'center',
   },
   navLink: {
     backgroundColor: '#121212',

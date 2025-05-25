@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView, FlatList } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Alert,
+  ScrollView,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 
 export default function ProductRegistrationScreen({ onBack }) {
   const [name, setName] = useState('');
@@ -8,7 +17,8 @@ export default function ProductRegistrationScreen({ onBack }) {
   const [quantity, setQuantity] = useState('');
   const [products, setProducts] = useState([]);
 
-  const API_URL = 'http://localhost:3001';
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001'; // Altere para seu backend real, se necessário
+
 
   useEffect(() => {
     fetchProducts();
@@ -75,8 +85,12 @@ export default function ProductRegistrationScreen({ onBack }) {
   const renderProduct = ({ item }) => (
     <View style={styles.productItem}>
       <Text style={styles.productText}>{item.name}</Text>
-      <Text style={styles.productText}>Preço Varejo: R$ {parseFloat(item.retail_price).toFixed(2)}</Text>
-      <Text style={styles.productText}>Preço Atacado: R$ {parseFloat(item.wholesale_price).toFixed(2)}</Text>
+      <Text style={styles.productText}>
+        Preço Varejo: R$ {parseFloat(item.retail_price).toFixed(2)}
+      </Text>
+      <Text style={styles.productText}>
+        Preço Atacado: R$ {parseFloat(item.wholesale_price).toFixed(2)}
+      </Text>
       <Text style={styles.productText}>Quantidade: {item.quantity}</Text>
     </View>
   );
@@ -84,15 +98,18 @@ export default function ProductRegistrationScreen({ onBack }) {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Cadastro de Produtos</Text>
+
       <TextInput
         style={styles.input}
         placeholder="Nome do Produto"
+        placeholderTextColor="#9a7ed1"
         value={name}
         onChangeText={setName}
       />
       <TextInput
         style={styles.input}
         placeholder="Preço Varejo (R$)"
+        placeholderTextColor="#9a7ed1"
         value={retailPrice}
         onChangeText={setRetailPrice}
         keyboardType="numeric"
@@ -100,6 +117,7 @@ export default function ProductRegistrationScreen({ onBack }) {
       <TextInput
         style={styles.input}
         placeholder="Preço Atacado (R$)"
+        placeholderTextColor="#9a7ed1"
         value={wholesalePrice}
         onChangeText={setWholesalePrice}
         keyboardType="numeric"
@@ -107,11 +125,16 @@ export default function ProductRegistrationScreen({ onBack }) {
       <TextInput
         style={styles.input}
         placeholder="Quantidade"
+        placeholderTextColor="#9a7ed1"
         value={quantity}
         onChangeText={setQuantity}
         keyboardType="numeric"
       />
-      <Button title="Cadastrar Produto" onPress={handleSubmit} />
+
+      <TouchableOpacity style={styles.buttonContainer} onPress={handleSubmit}>
+        <Text style={styles.buttonText}>Cadastrar Produto</Text>
+      </TouchableOpacity>
+
       {products.length === 0 ? (
         <Text style={styles.emptyMessage}>Nenhum produto cadastrado.</Text>
       ) : (
@@ -122,7 +145,10 @@ export default function ProductRegistrationScreen({ onBack }) {
           style={styles.productList}
         />
       )}
-      <Button title="Voltar" onPress={onBack} />
+
+      <TouchableOpacity style={styles.backButtonContainer} onPress={onBack}>
+        <Text style={styles.backButtonText}>Voltar</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -130,42 +156,73 @@ export default function ProductRegistrationScreen({ onBack }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: '#0d0d0d',
     padding: 20,
   },
   title: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#6a0dad',
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#a259ff',
     marginBottom: 20,
-    textTransform: 'uppercase',
     textAlign: 'center',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
   },
   input: {
-    backgroundColor: '#1e1e1e',
-    color: '#ffffff',
-    padding: 10,
-    marginBottom: 20,
-    borderRadius: 8,
-    borderColor: '#6a0dad',
+    backgroundColor: '#1a1a1a',
+    borderColor: '#a259ff',
     borderWidth: 1,
+    borderRadius: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    color: '#ffffff',
+    marginBottom: 16,
+    fontSize: 16,
   },
   productItem: {
-    backgroundColor: '#121212',
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 8,
+    backgroundColor: '#1a1a1a',
+    padding: 14,
+    borderRadius: 10,
+    marginBottom: 12,
+    borderLeftWidth: 4,
+    borderLeftColor: '#a259ff',
   },
   productText: {
-    color: '#dcdcdc',
+    color: '#dddddd',
+    fontSize: 14,
+    marginBottom: 4,
   },
   emptyMessage: {
-    color: '#9a7ed1',
-    fontStyle: 'italic',
+    color: '#a259ff',
     textAlign: 'center',
-    marginTop: 20,
+    marginTop: 24,
+    fontStyle: 'italic',
   },
   productList: {
-    marginTop: 20,
+    marginTop: 16,
+    marginBottom: 24,
+  },
+  buttonContainer: {
+    backgroundColor: '#a259ff',
+    paddingVertical: 14,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  backButtonContainer: {
+    backgroundColor: '#333333',
+    paddingVertical: 12,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  backButtonText: {
+    color: '#a259ff',
+    fontSize: 14,
+    fontWeight: '600',
   },
 });
