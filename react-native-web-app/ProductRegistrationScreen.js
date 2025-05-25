@@ -8,7 +8,7 @@ export default function ProductRegistrationScreen({ onBack }) {
   const [quantity, setQuantity] = useState('');
   const [products, setProducts] = useState([]);
 
-  const API_URL = 'https://joaozinho-celular.onrender.com';
+  const API_URL = 'http://localhost:3001';
 
   useEffect(() => {
     fetchProducts();

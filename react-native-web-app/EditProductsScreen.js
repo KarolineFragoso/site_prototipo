@@ -9,7 +9,7 @@ export default function EditProductsScreen({ onBack }) {
   const [wholesalePrice, setWholesalePrice] = useState('');
   const [quantity, setQuantity] = useState('');
 
-  const API_URL = 'https://joaozinho-celular.onrender.com';
+  const API_URL = 'http://localhost:3001';
 
   useEffect(() => {
     fetchProducts();

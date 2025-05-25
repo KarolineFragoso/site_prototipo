@@ -98,7 +98,16 @@ app.put('/products/:id', (req, res) => {
 
 // Routes for sales
 app.get('/sales', (req, res) => {
-  const sql = 'SELECT * FROM sales';
+  const sql = `
+    SELECT 
+      sales.id,
+      products.name as product,
+      sales.quantity,
+      (sales.quantity * products.retail_price) as total_price,
+      sales.sale_date as date
+    FROM sales
+    JOIN products ON sales.product_id = products.id
+  `;
   db.all(sql, [], (err, rows) => {
     if (err) {
       res.status(400).json({ error: err.message });
@@ -108,16 +117,65 @@ app.get('/sales', (req, res) => {
   });
 });
 
-app.post('/sales', (req, res) => {
-  const { product_id, quantity } = req.body;
-  const sql = 'INSERT INTO sales (product_id, quantity) VALUES (?, ?)';
-  const params = [product_id, quantity];
-  db.run(sql, params, function(err) {
+// Endpoint para deletar produto por id
+app.delete('/products/:id', (req, res) => {
+  const { id } = req.params;
+  const sql = 'DELETE FROM products WHERE id = ?';
+  db.run(sql, [id], function(err) {
     if (err) {
       res.status(400).json({ error: err.message });
       return;
     }
-    res.json({ id: this.lastID, product_id, quantity });
+    if (this.changes === 0) {
+      res.status(404).json({ error: 'Produto não encontrado' });
+      return;
+    }
+    res.json({ message: `Produto com id ${id} deletado com sucesso` });
+  });
+});
+
+app.post('/sales', (req, res) => {
+  const { product_id, quantity } = req.body;
+
+  if (!Number.isInteger(quantity) || quantity < 1) {
+    res.status(400).json({ error: 'Quantidade inválida' });
+    return;
+  }
+
+  // Check current stock
+  const checkStockSql = 'SELECT quantity FROM products WHERE id = ?';
+  db.get(checkStockSql, [product_id], (err, row) => {
+    if (err) {
+      res.status(400).json({ error: err.message });
+      return;
+    }
+    if (!row) {
+      res.status(404).json({ error: 'Produto não encontrado' });
+      return;
+    }
+    if (row.quantity < quantity) {
+      res.status(400).json({ error: 'Estoque insuficiente' });
+      return;
+    }
+
+    // Insert sale
+    const insertSaleSql = 'INSERT INTO sales (product_id, quantity) VALUES (?, ?)';
+    db.run(insertSaleSql, [product_id, quantity], function(err) {
+      if (err) {
+        res.status(400).json({ error: err.message });
+        return;
+      }
+
+      // Update product stock
+      const updateStockSql = 'UPDATE products SET quantity = quantity - ? WHERE id = ?';
+      db.run(updateStockSql, [quantity, product_id], function(err) {
+        if (err) {
+          res.status(400).json({ error: err.message });
+          return;
+        }
+        res.json({ id: this.lastID, product_id, quantity });
+      });
+    });
   });
 });
 

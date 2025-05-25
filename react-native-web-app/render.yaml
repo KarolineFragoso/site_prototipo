@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: joaozinho-celular-frontend
+    env: node
+    plan: free
+    rootDirectory: react-native-web-app
+    buildCommand: npm install && npm run build
+    startCommand: npx serve -s web-build
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://joaozinho-celular.onrender.com

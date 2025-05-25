@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, ScrollView, Alert } from 'react-native'
 
 export default function SalesReportScreen({ onBack }) {
   const [sales, setSales] = useState([]);
-  const API_URL = 'https://joaozinho-celular.onrender.com';
+  const API_URL = 'http://localhost:3001';
 
   useEffect(() => {
     fetchSales();
@@ -30,9 +30,9 @@ export default function SalesReportScreen({ onBack }) {
           <View key={sale.id} style={styles.saleItem}>
             <Text style={styles.productText}>Produto: {sale.product}</Text>
             <Text style={styles.productText}>Quantidade: {sale.quantity}</Text>
-            <Text style={styles.productText}>Preço Total: R$ {parseFloat(sale.total_price).toFixed(2)}</Text>
-            <Text style={styles.productText}>Data: {sale.date}</Text>
-            <Text style={styles.productText}>Hora: {sale.time}</Text>
+            <Text style={styles.productText}>Preço Total: R$ {(sale.total_price ? sale.total_price.toFixed(2) : '0.00')}</Text>
+            <Text style={styles.productText}>Data: {sale.date ? new Date(sale.date).toLocaleString() : ''}</Text>
+            {/* <Text style={styles.productText}>Hora: {sale.time}</Text> */}
           </View>
         ))
       )}

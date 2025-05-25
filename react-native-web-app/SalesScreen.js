@@ -5,7 +5,7 @@ export default function SalesScreen({ onBack }) {
   const [products, setProducts] = useState([]);
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [quantity, setQuantity] = useState('');
-  const API_URL = 'https://joaozinho-celular.onrender.com';
+  const API_URL = 'http://localhost:3001';
 
   useEffect(() => {
     fetchProducts();
@@ -50,6 +50,8 @@ export default function SalesScreen({ onBack }) {
       setSelectedProductId(null);
       setQuantity('');
       Alert.alert('Sucesso', 'Venda registrada com sucesso.');
+      // Refresh product list after sale
+      fetchProducts();
     } catch (error) {
       Alert.alert('Erro', 'Erro ao registrar venda: ' + error.message);
     }
