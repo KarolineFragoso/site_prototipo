@@ -1,3 +1,5 @@
+
+import API_URL from './config';
 import React, { useState, useEffect } from 'react';
 import {
   StyleSheet, Text, View, TextInput, TouchableOpacity, Alert,
@@ -11,8 +13,6 @@ export default function SalesScreen({ onBack }) {
   const [priceType, setPriceType] = useState('retail');
   const [amountReceived, setAmountReceived] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
-
 
   useEffect(() => {
     fetchProducts();

@@ -1,3 +1,4 @@
+import API_URL from './config';
 import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
@@ -14,8 +15,6 @@ export default function SalesReportScreen({ onBack }) {
   const [sales, setSales] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filterDate, setFilterDate] = useState('');
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
-
 
   useEffect(() => {
     fetchSales();

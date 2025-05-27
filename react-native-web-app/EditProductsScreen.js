@@ -1,3 +1,5 @@
+
+import API_URL from './config';
 import React, { useState, useEffect } from 'react';
 import {
   StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, ScrollView
@@ -11,9 +13,6 @@ export default function EditProductsScreen({ onBack }) {
   const [wholesalePrice, setWholesalePrice] = useState('');
   const [quantity, setQuantity] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
-
 
   useEffect(() => {
     fetchProducts();

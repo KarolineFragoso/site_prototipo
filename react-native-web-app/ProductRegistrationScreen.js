@@ -1,3 +1,5 @@
+
+import API_URL from './config';
 import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
@@ -16,9 +18,6 @@ export default function ProductRegistrationScreen({ onBack }) {
   const [wholesalePrice, setWholesalePrice] = useState('');
   const [quantity, setQuantity] = useState('');
   const [products, setProducts] = useState([]);
-
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001'; // Altere para seu backend real, se necessário
-
 
   useEffect(() => {
     fetchProducts();
