@@ -1,13 +1,18 @@
 {
+  "name": "react-native-backend",
   "name": "joaozinho-celular-web",
   "version": "1.0.0",
+  "description": "Backend for React Native app with SQLite",
+  "main": "server.js",
   "private": true,
   "scripts": {
+    "start": "node server.js",
     "start": "npx serve web-build",
     "build": "npx expo export:web"
   },
   "dependencies": {
-    "@expo/webpack-config": "^18.0.1",
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6",
     "cors": "^2.8.5",
     "expo": "~48.0.18",
     "expo-status-bar": "~1.4.4",
@@ -15,6 +20,7 @@
     "react-dom": "18.2.0",
     "react-native": "0.71.8",
     "react-native-web": "~0.18.10",
+    "@expo/webpack-config": "^18.0.1",
     "serve": "^14.2.0"
   },
   "devDependencies": {
