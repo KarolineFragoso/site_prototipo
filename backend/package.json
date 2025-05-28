@@ -1,13 +1,11 @@
 {
   "name": "react-native-backend",
-  "name": "joaozinho-celular-web",
   "version": "1.0.0",
   "description": "Backend for React Native app with SQLite",
   "main": "server.js",
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "start": "npx serve web-build",
     "build": "npx expo export:web"
   },
   "dependencies": {

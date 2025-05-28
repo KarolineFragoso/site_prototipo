@@ -18,6 +18,8 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
       "quantity INTEGER" +
     ")");
 
+// rodando com SQL não esquece plmds
+
     db.run("CREATE TABLE IF NOT EXISTS sales (" +
       "id INTEGER PRIMARY KEY AUTOINCREMENT," +
       "product_id INTEGER," +

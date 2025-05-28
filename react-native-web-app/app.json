@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "e49e4952-9fb2-4398-9106-4e00f6af5881"
+      }
+    },
+    "android": {
+      "package": "com.loght.joaozinhocelularweb"
+    }
+  }
+}

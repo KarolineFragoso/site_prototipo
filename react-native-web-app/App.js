@@ -12,7 +12,8 @@ import EditProductsScreen from './EditProductsScreen';
 import SalesScreen from './SalesScreen';
 import SalesReportScreen from './SalesReportScreen';
 
-// Login Screen component
+// não consegui pensar em uma segurança melhor me perdoa Deus T_T
+
 function LoginScreen({ onLogin }) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');

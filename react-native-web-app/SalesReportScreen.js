@@ -55,6 +55,8 @@ export default function SalesReportScreen({ onBack }) {
     let total = parseFloat(sale.total_price);
     if (isNaN(total)) total = 0;
 
+// horario da china eu acho
+
     const date = new Date(sale.date || '');
     const dateStr = date.toLocaleDateString();
     const timeStr = date.toLocaleTimeString();
